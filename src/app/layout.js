@@ -1,5 +1,8 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Navbar from "./components/Navbar";
+import NavBottom from "./components/NavBottom";
+import { Background } from "./components/Background/Background";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +14,30 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+
+        
+
+        <main className="w-full h-screen relative flex flex-col bg-gray-800"> 
+          <Background />
+          <Navbar />
+
+          <section className="grid grid-cols-12 mt-2 w-[98%] mx-auto max-w-[1440px] rounded-md gap-x-1 z-50">
+
+            <nav className="col-span-2 bg-grisoscuro/50 rounded-l-2xl border border-verdelima/50">
+
+            </nav>
+
+            {children}
+
+            <aside className="col-span-2 bg-grisoscuro/50 rounded-r-2xl border border-verdelima/50">
+
+            </aside>
+          </section>
+          
+          <NavBottom />
+        </main>
+      </body>
     </html>
   );
 }
