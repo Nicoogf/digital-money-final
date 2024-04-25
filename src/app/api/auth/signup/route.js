@@ -7,10 +7,14 @@ export async function POST( request ) {
 
         const {nombre,apellido,dni,email,password,telefono} = await request.json()
 
+        if( !nombre || !apellido ||  !dni ||  !email || !password || !telefono ){
+            return NextResponse.json({message : "Faltan completar campos"},{status:400})   
+        }
+
         if(password.length < 6) {
-           return NextResponse.json({message : "Contaseña Corta"},{status:400})   
-        } 
-    
+           return NextResponse.json({message : "Contaseña Corta"},{status:400})  
+        }
+        
         try {
             await ConnectionMongoDB()
             const usuarioEncontrado = await User.findOne( { email } )
@@ -36,11 +40,14 @@ export async function POST( request ) {
                 const usuarioGuardado = await usuarioCreado.save()
             
                 console.log(usuarioGuardado)
-                return NextResponse.json(usuarioGuardado)
+                return NextResponse.json({
+                    email: usuarioGuardado.email,
+                    nombre : usuarioGuardado.nombre
+                })
         } catch (error) {
-            console.log(error)
-            return NextResponse.json({message : error.errmsg} , {status: 400})
+            console.log(error);
+            return NextResponse.json(
+                { message: "Error al guardar el usuario" }, 
+                { status: 400 })
         }
-        
-
-}
+    }

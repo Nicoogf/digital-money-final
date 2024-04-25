@@ -11,7 +11,7 @@ const LoguinForm = () => {
   
   return (
     <main className="col-span-8 bg-gray-200  h-[calc(100vh-135px)] flex justify-center items-center">
-    <div className=''>
+    <div className='relative'>
 
        <form className='flex flex-col gap-y-2' onSubmit={""}> 
            <h1 className='bg-gray-900 text-white text-center py-2 '> Iniciar Seccion</h1>

@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import NavBottom from "./components/NavBottom";
 import { Background } from "./components/Background/Background";
+import Providers from "./Providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,11 +16,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-
-        
+        <Providers>        
 
         <main className="w-full h-screen relative flex flex-col bg-gray-800"> 
-          <Background />
+         { /* <Background /> */} 
           <Navbar />
 
           <section className="grid grid-cols-12 mt-2 w-[98%] mx-auto max-w-[1440px] rounded-md gap-x-1 z-50">
@@ -37,6 +37,8 @@ export default function RootLayout({ children }) {
           
           <NavBottom />
         </main>
+        
+        </Providers>
       </body>
     </html>
   );
