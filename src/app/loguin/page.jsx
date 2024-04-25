@@ -1,13 +1,17 @@
 'use client'
 import React, { useState } from 'react'
-import axios , { AxiosError } from 'axios'
-import { signIn } from 'next-auth/react'
+import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
 
 const LoguinPage = () => {
 
   const [ errors , setErrors ] = useState( "" )
   const router = useRouter()
+  const { data : session , status } = useSession()  
+  const isLogued = status === "authenticated" ? true : false
+  console.log(isLogued)
   
   const handleSubmit = async( e ) => {
     e.preventDefault()
@@ -30,25 +34,29 @@ const LoguinPage = () => {
   
 
   return (
-    <main className="col-span-8 bg-gray-200  h-[calc(100vh-135px)] flex justify-center items-center">
+    <main className={`${isLogued ? "col-span-1" : "col-span-12"}  bg-grisoscuro/90 h-[calc(100vh-135px)] flex justify-center items-center`}>
          <div className=''>
             <form className='flex flex-col gap-y-2' onSubmit={handleSubmit}> 
-                <h1 className='bg-gray-900 text-white  py-2 text-center'> Ingresar </h1>
+                <h1 className='text-verdelima  py-2 text-center font-thin text-4xl'> Ingresar </h1>
                
 
-                <label> Correo </label>
-                <input  placeholder='correo'name='correo' />
+                <label className='font-normal text-verdelima text-sm'> Correo </label>
+                <input  placeholder='correo'name='correo' className='p-2 rounded-lg bg-grisclaro/60 text-white outline-verdelima border border-verdelima'/>
 
-                <label> Contraseña </label>
-                <input  placeholder='contra'name='contra' />
+                <label className='font-normal text-verdelima text-sm'> Contraseña </label>
+                <input  placeholder='contra'name='contra' className='p-2 rounded-lg bg-grisclaro/60 text-white outline-verdelima border border-verdelima' />
 
              
                 
-                <button className='bg-blue-500 text-white py-2' type='submit'> Iniciar </button>
+                <button className='border border-transparent bg-verdelima text-grisoscuro py-2 rounded-lg mt-2 hover:bg-grisoscuro hover:text-verdelima hover:border-verdelima transition-all duration' type='submit'> Iniciar </button>
             </form>
+            <Link href="#" >
+              <h6 className='text-xs text-white underline text-end mt-4'>¿Olvidaste tu Contraseña?</h6>
+            </Link>
 
             {errors && (
-              <div className='bg-red-500 text-white'> {errors} </div>
+              <div className='bg-red-500 text-white mt-4 rounded-lg text-sm text-center py-2'> {errors} 
+              </div>
             )}
 
          </div>
