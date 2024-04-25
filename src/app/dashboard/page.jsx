@@ -7,7 +7,10 @@ const Dashboard = () => {
  const { data : session , status } = useSession()
  console.log(session, status)
   return (
-    <div>page</div>
+    <section>
+      <h1> Inicio </h1>
+      
+    </section>
   )
 }
 

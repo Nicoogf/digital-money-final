@@ -1,17 +1,20 @@
 'use client'
 import React, { useState } from 'react'
 import axios , { AxiosError } from 'axios'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const RegisterPage = () => {
 
   const [ errors , setErrors ] = useState()
+  const router = useRouter()
   
   const handleSubmit = async( e ) => {
-    try {
-      e.preventDefault()
-      const formData  = new FormData( e.currentTarget )       
-   
-      const respuesta = await axios.post("/api/auth/signup" , {
+    e.preventDefault()
+    const formData  = new FormData( e.currentTarget )  
+
+    try {   
+      const signupResponse = await axios.post("/api/auth/signup" , {
        nombre : formData.get("nombre") ,
        apellido : formData.get("apellido"),
        dni : formData.get("dni"),
@@ -19,7 +22,18 @@ const RegisterPage = () => {
        password : formData.get("contra"),
        telefono :  formData.get("telefono"),
       })
-      console.log( respuesta )
+
+      console.log( signupResponse )
+
+      const res =  await signIn("credentials" , {
+        email : signupResponse.data.email,
+        password : formData.get("contra"),
+        redirect: false,
+      })
+
+      if( res?.ok ) return router.push("/dashboard")
+      console.log( res )
+      
     } catch (error) {
       console.log(error)
       if( error instanceof AxiosError){
